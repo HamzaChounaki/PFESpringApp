@@ -1,14 +1,15 @@
 package ma.pfe.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
 
 @Entity
-//@Table(name = "T_STUDENTS")
 public class StudentEntity {
     @Id
+    @Column(name = "id_student")
     private long id;
+    @Column(name = "name_student")
     private String name;
 
     public long getId() {

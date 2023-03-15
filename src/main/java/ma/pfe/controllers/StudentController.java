@@ -1,29 +1,26 @@
 package ma.pfe.controllers;
 
 import ma.pfe.dtos.StudentDto;
-import ma.pfe.mappers.StudentMapper;
 import ma.pfe.services.StudentService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.javapoet.ClassName;
-import org.springframework.stereotype.Component;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Component
 @RestController
 @RequestMapping("/students")
 public class StudentController {
 
-    private StudentService service;
+    private final static Logger LOG = LoggerFactory.getLogger(StudentController.class);
+    private StudentService studentService;
 
-    public StudentController(StudentService service) {
-        this.service = service;
+    public StudentController(@Qualifier("service1") StudentService studentService) {
+        this.studentService = studentService;
     }
 
-    @PostMapping("/save")
+    /*@PostMapping("/save")
     public Long create(@RequestBody StudentDto dto){
         //return service.create(dto);
         LOG.debug("start Create");
@@ -59,7 +56,7 @@ public class StudentController {
         return result;
     }
 
-    private final static Logger LOG = LoggerFactory.getLogger(ClassName.class);
+
 
     /*public Long create(StudentDto dto) {
         return service.create(dto);
@@ -76,4 +73,28 @@ public class StudentController {
     public List<StudentDto> readAll() {
         return service.readAll();
     }*/
+
+    @PostMapping
+    public Long save(@RequestBody StudentDto dto) {
+        LOG.debug("start method save dto : {} ",dto);
+        return studentService.save(dto);
+    }
+
+    @PutMapping
+    public Long update(@RequestBody StudentDto dto) {
+        LOG.debug("start method update dto : {} ",dto);
+        return studentService.update(dto);
+    }
+
+    @DeleteMapping("/{ids}")
+    public Boolean delete(@PathVariable("ids") Long id) {
+        LOG.debug("start method delete id : {} ",id);
+        return studentService.delete(id);
+    }
+
+    @GetMapping
+    public List<StudentDto> selectAll() {
+        LOG.debug("start method select All");
+        return studentService.selectAll();
+    }
 }

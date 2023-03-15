@@ -4,31 +4,31 @@ import ma.pfe.dtos.StudentDto;
 import ma.pfe.entities.StudentEntity;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Component
+@Component(value = "mapper1")
 public class StudentMapper {
-    public StudentEntity convertDtoToEntity(StudentDto dto){
-        StudentEntity entity = new StudentEntity();
-        entity.setId(dto.getId());
-        entity.setName(dto.getName());
-        return entity;
+    public StudentEntity studentDtoToEntity(StudentDto dto) {
+        StudentEntity studentEntity = new StudentEntity();
+        //studentEntity.setStudentId(new StudentId(dto.getId(),""));
+        studentEntity.setName(dto.getName());
+        return studentEntity;
     }
-    public StudentDto convertEntityToDto(StudentEntity entity){
+
+    public StudentDto studentEntityToDto(StudentEntity studentEntity) {
         StudentDto dto = new StudentDto();
-        dto.setId(entity.getId());
-        dto.setName(entity.getName());
+        //dto.setId(studentEntity.getStudentId().getId());
+        dto.setName(studentEntity.getName());
         return dto;
     }
 
-    public List<StudentDto> convertEntitiesToDtos(List<StudentEntity> entities){
-        return entities.stream().map(entity -> convertEntityToDto(entity)).collect(Collectors.toList());
+    public List<StudentDto> studentEntiesToDtos(List<StudentEntity> studentEntities) {
+        if(studentEntities!=null&&!studentEntities.isEmpty()){
+            return studentEntities.stream().map(studentEntity -> studentEntityToDto(studentEntity)).collect(Collectors.toList());
+        }else {
+            return new ArrayList<>();
+        }
     }
-    public List<StudentEntity> convertDtosToEntities(List<StudentDto> dtos){
-        return dtos.stream().map(dto -> convertDtoToEntity(dto)).collect(Collectors.toList());
-    }
-
-   /* public Long convertEntityToDto(Long aLong) {
-    }*/
 }

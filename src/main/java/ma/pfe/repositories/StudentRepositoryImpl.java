@@ -1,29 +1,19 @@
 package ma.pfe.repositories;
 
-import ma.pfe.dtos.StudentDto;
-import ma.pfe.entities.StudentEntity;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
-import org.springframework.javapoet.ClassName;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
+import org.springframework.stereotype.Repository;
 
 @Lazy
 @Component
+@Repository("repo1")
 //@RestController
 //@RequestMapping("/repositories")
-public class StudentRepositoryImpl implements StudentRepository{
+public class StudentRepositoryImpl{
 
-
+/*
     private StudentRepository repository;
 
-    public StudentRepositoryImpl(StudentRepository repository) {
-        this.repository = repository;
-    }
 
     //@PostMapping("/save")
     @Override
@@ -61,5 +51,5 @@ public class StudentRepositoryImpl implements StudentRepository{
         return result;
     }
 
-    private final static Logger LOG = LoggerFactory.getLogger(ClassName.class);
+    private final static Logger LOG = LoggerFactory.getLogger(ClassName.class);*/
 }

@@ -1,69 +1,50 @@
 package ma.pfe.services;
 
 import ma.pfe.dtos.StudentDto;
-import ma.pfe.entities.StudentEntity;
 import ma.pfe.mappers.StudentMapper;
 import ma.pfe.repositories.StudentRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.javapoet.ClassName;
-import org.springframework.stereotype.Component;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Component
+@Service("service1")
 public class StudentServiceImpl implements StudentService{
-    /*@Autowired
-    private StudentRepository repository;
-    @Autowired
-    private StudentMapper mapper;*/
+    private final static Logger LOG = LoggerFactory.getLogger(StudentServiceImpl.class);
+    private StudentRepository studentRepository;
+    private StudentMapper studentMapper;
 
-    private StudentService service;
-
-    public StudentServiceImpl(StudentService service) {
-        this.service = service;
-    }
-
-    public StudentServiceImpl() {
-        System.out.println("instance StudentServiceImpl");
+    public StudentServiceImpl(@Qualifier("repo1") StudentRepository studentRepository, @Qualifier("mapper1") StudentMapper studentMapper) {
+        this.studentRepository = studentRepository;
+        this.studentMapper = studentMapper;
     }
 
     @Override
-    public Long create(StudentDto dto) {
-        //return mapper.convertEntityToDto(repository.create(mapper.convertDtoToEntity(dto)));
-        LOG.debug("start Create");
-        long result = service.create(dto);
-        LOG.debug("end Create");
-        return result;
+    public Long save(StudentDto dto) {
+        LOG.debug("start method save dto : {} ",dto);
+        StudentDto re = studentMapper.studentEntityToDto(studentRepository.save(studentMapper.studentDtoToEntity(dto)));
+        return re.getId();
     }
 
     @Override
-    public boolean update(StudentDto dto) {
-        //return mapper.convertEntityToDto(repository.update(mapper.convertDtoToEntity(dto)));
-        LOG.debug("start Update");
-        boolean result = service.update(dto);
-        LOG.debug("end Update");
-        return result;
+    public Long update(StudentDto dto) {
+        LOG.debug("start method save dto : {} ",dto);
+        StudentDto re = studentMapper.studentEntityToDto(studentRepository.save(studentMapper.studentDtoToEntity(dto)));
+        return re.getId();
     }
 
     @Override
-    public boolean delete(Long id) {
-        //return repository.delete(id);
-        LOG.debug("start Delete");
-        boolean result = service.delete(id);
-        LOG.debug("end Delete");
-        return result;
+    public Boolean delete(Long id) {
+        LOG.debug("start method delete id : {} ",id);
+        studentRepository.deleteById(id);
+        return true;
     }
 
     @Override
-    public List<StudentDto> readAll() {
-        //return mapper.convertEntitiesToDtos(repository.readAll());
-        LOG.debug("start ReadAll");
-        List<StudentDto> result = service.readAll();
-        LOG.debug("end ReadAll");
-        return result;
+    public List<StudentDto> selectAll() {
+        LOG.debug("start method select All");
+        return studentMapper.studentEntiesToDtos(studentRepository.findAll());
     }
-
-    private final static Logger LOG = LoggerFactory.getLogger(ClassName.class);
 }
